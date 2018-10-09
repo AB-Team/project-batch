@@ -1,0 +1,14 @@
+server:
+  port:   9000
+
+spring:
+  application:
+    name:   batchservice
+  data:
+    mongodb:
+      application-database:   batchDB
+      username:   app_user
+      password:   aap_password
+      database:   batchDB
+      port:   27017
+      host:   localhost
