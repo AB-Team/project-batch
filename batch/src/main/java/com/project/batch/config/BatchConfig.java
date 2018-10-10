@@ -31,6 +31,9 @@ public class BatchConfig extends DefaultBatchConfigurer {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private FileVerificationSkipper fileVerificationSkipper;
+
     @Bean
     public FlatFileItemReader<FileInfo> reader() {
         return new FlatFileItemReaderBuilder<FileInfo>()
@@ -64,10 +67,16 @@ public class BatchConfig extends DefaultBatchConfigurer {
         return jobBuilderFactory.get("batchJob").incrementer(new RunIdIncrementer()).start(step1()).build();
     }
 
+//    @Bean
+//    public FileVerificationSkipper fileVerificationSkipper(){
+//        return new FileVerificationSkipper();
+//    }
+
     @Bean
     public Step step1() {
         return stepBuilderFactory.get("step1")
                 .<FileInfo, FileInfo> chunk(10)
+                .faultTolerant().skipPolicy(fileVerificationSkipper)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())
