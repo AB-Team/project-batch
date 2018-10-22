@@ -38,7 +38,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
     public FlatFileItemReader<FileInfo> reader() {
         return new FlatFileItemReaderBuilder<FileInfo>()
                 .name("fileInfoItemReader")
-                .resource(new ClassPathResource("sample-data.csv"))
+                .resource(new ClassPathResource("sample.csv"))
                 .delimited()
                 .names(new String[]{"url", "name", "username"})
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<FileInfo>() {{
